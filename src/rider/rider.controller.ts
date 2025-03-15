@@ -17,6 +17,11 @@ export class RiderController {
     return this.riderService.findAll();
   }
 
+  @Get()
+  getAll() {
+    return this.riderService;
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.riderService.findOne(+id);
