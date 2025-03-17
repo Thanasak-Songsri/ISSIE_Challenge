@@ -1,16 +1,11 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { CreateRiderDto } from './dto/create-rider.dto';
 import { UpdateRiderDto } from './dto/update-rider.dto';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class RiderService extends PrismaClient implements OnModuleInit {
-
-  onModuleInit() {
-    this.$connect();
-    console.log('Database connected')
-  }
-  
+export class RiderService {
+  constructor(private prisma: PrismaService) {}  
 
   create(createRiderDto: CreateRiderDto) {
     return 'This action adds a new rider';
