@@ -8,11 +8,22 @@ export class RiderService {
   constructor(private prisma: PrismaService) {}  
 
   create(createRiderDto: CreateRiderDto) {
-    return 'This action adds a new rider';
+    const newRider = this.prisma.rider.create({
+      data: {
+        firstName: createRiderDto.firstName,
+        lastName: createRiderDto.lastName,
+        email: createRiderDto.email,
+        licensePlate: createRiderDto.licensePlate,
+        phoneNumber: createRiderDto.phoneNumber,
+      },
+    });
+    
+    return newRider;
   }
 
+
   findAll() {
-    return `This action returns all rider`;
+    return this.prisma.rider.findMany();
   }
 
   findOne(id: number) {

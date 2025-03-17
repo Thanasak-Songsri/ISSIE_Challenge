@@ -7,7 +7,7 @@ import { UpdateRiderDto } from './dto/update-rider.dto';
 export class RiderController {
   constructor(private readonly riderService: RiderService) {}
 
-  @Post()
+  @Post('/create')
   create(@Body() createRiderDto: CreateRiderDto) {
     return this.riderService.create(createRiderDto);
   }
