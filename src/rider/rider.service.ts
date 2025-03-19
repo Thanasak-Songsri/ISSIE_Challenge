@@ -61,11 +61,19 @@ export class RiderService {
       throw new Error(`Error update data rider ${id}`);
     }
   
-  
     return updatedRider; 
   }
 
   remove(id: number) {
-    return `This action removes a #${id} rider`;
+  const deletedRider = this.prisma.rider.delete({
+    where: { id: id },
+  });
+
+  if (!deletedRider) {
+    throw new Error(`Error deleted rider ${id}`);
   }
+
+  return deletedRider;
+  }
+
 }
