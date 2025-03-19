@@ -46,7 +46,23 @@ export class RiderService {
   }
 
   update(id: number, updateRiderDto: UpdateRiderDto) {
-    return `This action updates a #${id} rider`;
+    const updatedRider = this.prisma.rider.update({
+      where: { id: id },
+      data: {
+        firstName: updateRiderDto.firstName, 
+        lastName: updateRiderDto.lastName,   
+        email: updateRiderDto.email,         
+        licensePlate: updateRiderDto.licensePlate,
+        phoneNumber: updateRiderDto.phoneNumber,
+      },
+    });
+
+    if (!updatedRider) {
+      throw new Error(`Error update data rider ${id}`);
+    }
+  
+  
+    return updatedRider; 
   }
 
   remove(id: number) {
