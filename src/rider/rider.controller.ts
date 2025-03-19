@@ -3,11 +3,11 @@ import { RiderService } from './rider.service';
 import { CreateRiderDto } from './dto/create-rider.dto';
 import { UpdateRiderDto } from './dto/update-rider.dto';
 
-@Controller('rider')
+@Controller('riders')
 export class RiderController {
   constructor(private readonly riderService: RiderService) {}
 
-  @Post('/create')
+  @Post('/')
   create(@Body() createRiderDto: CreateRiderDto) {
     return this.riderService.create(createRiderDto);
   }
