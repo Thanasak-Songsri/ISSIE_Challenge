@@ -27,7 +27,22 @@ export class RiderService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} rider`;
+  const rider = this.prisma.rider.findUnique({
+    where: { id: id },
+    select: {
+      firstName: true,
+      lastName: true,
+      email: true,
+      licensePlate: true,
+      phoneNumber: true,
+    },
+  });
+
+  if (!rider) {
+    throw new Error(`Rider with id ${id} not found`);
+  }
+
+    return rider;
   }
 
   update(id: number, updateRiderDto: UpdateRiderDto) {
