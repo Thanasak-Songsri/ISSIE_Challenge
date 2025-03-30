@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { RiderService } from './rider.service';
 import { CreateRiderDto } from './dto/create-rider.dto';
 import { UpdateRiderDto } from './dto/update-rider.dto';
-import { ApiOperation, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags, ApiParam, ApiBody, ApiQuery } from '@nestjs/swagger';
+import { CreateLocationDto } from './dto/create-location.dto';
 
 @ApiTags('Riders') 
 @Controller('riders')
@@ -25,8 +26,39 @@ export class RiderController {
     status: 200,
     description: 'Successfully retrieved all riders.',
   })
+  @ApiResponse({
+    status: 404,
+    description: 'Riders not found',
+  })
   findAll() {
     return this.riderService.findAll();
+  }
+
+  @Get('/search')
+  @ApiOperation({ summary: 'Get riders in distance 5km' })
+  @ApiQuery({
+    name: 'latitude',
+    type: Number,
+    description: 'Latitude of the location to search within a 5km radius',
+  })
+  @ApiQuery({
+    name: 'longitude',
+    type: Number,
+    description: 'Longitude of the location to search within a 5km radius',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved riders in distance 5km.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Rider not found',
+  })
+  async findRidersWithinRadius(
+    @Query('latitude') latitude: number, 
+    @Query('longitude') longitude: number,
+  ) {
+    return this.riderService.findRidersWithinRadius(latitude, longitude);
   }
 
   @Get(':id')
@@ -85,4 +117,34 @@ export class RiderController {
   remove(@Param('id') id: string) {
     return this.riderService.remove(+id);
   }
+
+  
+  @Get(':riderId/locations')
+  @ApiParam({
+    name: 'riderId',
+    type: Number,
+    description: 'The unique ID of the rider',
+    example: 123, 
+  })
+  @ApiOperation({ summary: 'Get location of rider' })
+  findRiderLocation(@Param('riderId') riderId: string) {
+    return this.riderService.findRiderLocation(+riderId);
+  }
+
+
+  @Post(':riderId/locations')
+  @ApiOperation({ summary: 'Create location of rider' })
+  @ApiParam({
+    name: 'riderId',
+    type: Number,
+    description: 'The unique ID of the rider',
+    example: 123, 
+  }) 
+  CreateRiderLocation(
+    @Param('riderId') riderId: string, 
+    @Body() @Body() createLocationDto: CreateLocationDto,
+  ) {
+    return this.riderService.CreateRiderLocation(+riderId, createLocationDto);
+  }
+
 }
