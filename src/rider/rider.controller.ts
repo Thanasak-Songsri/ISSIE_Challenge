@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { RiderService } from './rider.service';
 import { CreateRiderDto } from './dto/create-rider.dto';
 import { UpdateRiderDto } from './dto/update-rider.dto';
-import { ApiOperation, ApiResponse, ApiTags, ApiParam, ApiBody, ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { CreateLocationDto } from './dto/create-location.dto';
 
 @ApiTags('Riders') 
@@ -140,6 +140,10 @@ export class RiderController {
     description: 'The unique ID of the rider',
     example: 123, 
   }) 
+  @ApiResponse({
+    status: 201,
+    description: 'Location of rider has been successfully created.',
+  })
   CreateRiderLocation(
     @Param('riderId') riderId: string, 
     @Body() @Body() createLocationDto: CreateLocationDto,

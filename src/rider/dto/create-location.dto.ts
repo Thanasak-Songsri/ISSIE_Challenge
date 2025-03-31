@@ -2,10 +2,6 @@ import { IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateLocationDto {
-  @ApiProperty({
-    description: 'The latitude of the location',
-    example: 13.7367, 
-  })
   @IsNumber()
   latitude: number;
 
